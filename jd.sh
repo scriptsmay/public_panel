@@ -319,7 +319,7 @@ function paneloff() {
 
 # 清除日志
 function clean() {
-  sh ${ShellDir}/rm_log.sh
+  bash ${ShellDir}/rm_log.sh
 }
 
 ## 重置密码
