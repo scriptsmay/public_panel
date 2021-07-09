@@ -4,7 +4,7 @@
 #
 clear
 
-DockerImage="lantianxiang1/jd_shell:v3"
+DockerImage="virola/jd-panel:1.0"
 ShellName=$0
 ShellDir=$(cd "$(dirname "$0")";pwd)
 ContainerName=""
@@ -201,7 +201,17 @@ if [ $NewImage = true ]; then
         docker rmi $(docker images $DockerImage -q) -f
         # docker image rm -f $DockerImage
     fi
-    docker pull $DockerImage
+    if [ $GetImageType = "Local" ]; then
+        rm -rf $WorkDir
+        mkdir -p $WorkDir
+        wget -q https://gitee.com/virola/js_panel/raw/master/docker/Dockerfile -O $WorkDir/Dockerfile
+        sed -i 's,github.com,github.com.cnpmjs.org,g' $WorkDir/Dockerfile
+        sed -i 's,npm install,npm install --registry=https://registry.npm.taobao.org,g' $WorkDir/Dockerfile
+        docker build -t $DockerImage $WorkDir > $ShellDir/build_jd_image.log
+        rm -fr $WorkDir
+    else
+        docker pull $DockerImage
+    fi
 fi
 
 if [ $DelContainer = true ]; then
