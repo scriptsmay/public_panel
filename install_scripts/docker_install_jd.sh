@@ -106,7 +106,7 @@ Input_ContainerName() {
     else
         ContainerName=$container_name
     fi
-    Check_ContainerName 
+    Check_ContainerName
 }
 Input_ContainerName
 
@@ -196,22 +196,12 @@ Need_Dir
 if [ $NewImage = true ]; then
     log "\n正在获取新镜像..."
     if [ $HasImage = true ]; then
-        docker stop jd
-        docker rm jd
-        docker rmi $(docker images lantianxiang1/jd_shell -q) -f
+        docker stop $ContainerName
+        docker rm $ContainerName
+        docker rmi $(docker images $DockerImage -q) -f
         # docker image rm -f $DockerImage
     fi
-    if [ $GetImageType = "Local" ]; then
-        rm -fr $WorkDir
-        mkdir -p $WorkDir
-        wget -q https://cdn.jsdelivr.net/gh/lan-tianxiang/jd_shell/docker/Dockerfile -O $WorkDir/Dockerfile
-        sed -i 's,github.com,github.com.cnpmjs.org,g' $WorkDir/Dockerfile
-        sed -i 's,npm install,npm install --registry=https://registry.npm.taobao.org,g' $WorkDir/Dockerfile
-        docker build -t $DockerImage $WorkDir > $ShellDir/build_jd_image.log
-        rm -fr $WorkDir
-    else
-        docker pull $DockerImage
-    fi
+    docker pull $DockerImage
 fi
 
 if [ $DelContainer = true ]; then
@@ -229,14 +219,13 @@ docker run -dit \
     $NeedDirScripts \
     -p $PanelPort:5678 \
     --name $ContainerName \
-    --hostname jd \
     --restart always \
     $DockerImage
 
 log "\n下面列出所有容器"
 docker ps
 
-log "\n安装已经完成。\n请访问 http://<ip>:${PanelPort} 进行配置\n初始用户名：admin，初始密码：adminadmin"
+log "\n安装已经完成。\n请访问 http://<ip>:${PanelPort} 进行配置\n初始用户名：admin，初始密码：pwdpwd123"
 rm -f $ShellDir/$ShellName
-echo "进入容器命令为########docker exec -it jd /bin/bash"
-# 更新于5/26
+echo "进入容器命令为########docker exec -it ${ContainerName} /bin/bash"
+# 更新于7/9

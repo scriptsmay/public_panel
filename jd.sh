@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
 ## Author: lan-tianxiang
-## Source: https://github.com/lan-tianxiang/jd_shell
 ## Modified： 2021-07-07
 ## Version： v3.66.0
 

@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 
-## Author: lan-tianxiang
+## Author: lan-tianxiang, V
 ## Source: https://github.com/lan-tianxiang/jd_shell
-## Modified： 2021-03-29
-## Version： v3.6.3
+## Modified： 2021-07-09
+## Version： v3.7.0
 
 ## 文件路径、脚本网址、文件版本以及各种环境的判断
 ShellDir=${JD_DIR:-$(
@@ -41,13 +41,8 @@ PanelDir=${ShellDir}/panel
 panelpwd=${ConfigDir}/auth.json
 panelpwdSample=${ShellDir}/sample/auth.json
 
-if [[ ${WhichDep} == *github* ]]; then
-  ScriptsURL=https://gitee.com/highdimen/clone_scripts
-  ShellURL=https://gitee.com/virola/js_panel.git
-else
-  ScriptsURL=https://gitee.com/highdimen/clone_scripts
-  ShellURL=https://gitee.com/virola/js_panel.git
-fi
+ScriptsURL=https://gitee.com/highdimen/clone_scripts
+ShellURL=https://gitee.com/virola/js_panel
 
 function SourceUrl_Update {
   if [ -s ${ScriptsDir}/.git/config ]; then
@@ -133,7 +128,7 @@ function Git_PullShell {
   cd ${ShellDir}
   git fetch --all
   ExitStatusShell=$?
-  git reset --hard origin/v3
+  git reset --hard origin/master
 }
 
 ## 克隆scripts

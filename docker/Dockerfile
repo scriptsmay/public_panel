@@ -1,7 +1,7 @@
 FROM node:lts-alpine
-LABEL maintainer="LanTianXiang <evinedeng@foxmail.com>"
+LABEL maintainer="Virola <virola@foxmail.com>"
 ARG JD_BASE_URL=https://gitee.com/virola/js_panel.git
-ARG JD_BASE_BRANCH=v3
+ARG JD_BASE_BRANCH=dev
 ARG JD_SCRIPTS_URL=https://gitee.com/highdimen/clone_scripts
 ARG JD_SCRIPTS_BRANCH=master
 ARG JD_SCRIPTS2_URL=https://gitee.com/highdimen/jd_scripts
