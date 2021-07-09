@@ -43,10 +43,10 @@ panelpwdSample=${ShellDir}/sample/auth.json
 
 if [[ ${WhichDep} == *github* ]]; then
   ScriptsURL=https://gitee.com/highdimen/clone_scripts
-  ShellURL=https://gitee.com/highdimen/jd_shell
+  ShellURL=https://gitee.com/virola/js_panel.git
 else
   ScriptsURL=https://gitee.com/highdimen/clone_scripts
-  ShellURL=https://gitee.com/highdimen/jd_shell
+  ShellURL=https://gitee.com/virola/js_panel.git
 fi
 
 function SourceUrl_Update {

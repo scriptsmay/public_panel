@@ -1,4 +1,4 @@
-name: Built_JD_Shell_To_Docker
+name: Built_To_Docker
 on:
   workflow_dispatch:
   schedule:
@@ -30,7 +30,7 @@ jobs:
           context: ./docker/
           platforms: linux/amd64,linux/arm64/v8,linux/arm/v7,linux/arm/v6,linux/ppc64le,linux/s390x
           push: true
-          tags: lantianxiang1/jd_shell:v3
+          tags: virola/js_panel:1.0
       - name: Delete Workflow Runs
         uses: Mattraks/delete-workflow-runs@main
         with:

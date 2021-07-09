@@ -125,23 +125,23 @@ function Combin_Sub() {
 function Combin_All() {
   export JD_COOKIE=$(Combin_Sub Cookie)
   ## 东东农场(jd_fruit.js)
-  export FRUITSHARECODES=$(Combin_Sub ForOtherFruit "588e4dd7ba134ad5aa255d9b9e1a38e3@520b92a9f0c34b34a0833f6c3bb41cac@e124f1c465554bf485983257743233d3" "7363f89a9d7248ae91a439794f854614@07b3cd1495524fa2b0f768e7639eab9f")
+  export FRUITSHARECODES=$(Combin_Sub ForOtherFruit)
   ## 东东萌宠(jd_pet.js)
-  export PETSHARECODES=$(Combin_Sub ForOtherPet "MTE1NDAxNzgwMDAwMDAwMzk3NDIzODc=@MTAxODEyMjkyMDAwMDAwMDQwMTEzNzA3@MTE1NDUyMjEwMDAwMDAwNDM3NDQzMzU=" "MTEzMzI0OTE0NTAwMDAwMDA0Mzc0NjgzOQ==")
+  export PETSHARECODES=$(Combin_Sub ForOtherPet)
   ## 种豆得豆(jd_plantBean.js)
-  export PLANT_BEAN_SHARECODES=$(Combin_Sub ForOtherBean "olmijoxgmjutzeajdig5vec453deq25pz7msb7i@okj5ibnh3onz6mkpbt6natnj7xdxeqeg53kjbsi@7oivz2mjbmnx4cbdwoeomdbqrr6bwbgsrhybhxa" "yvppbgio53ya5quolmjz6hiwlhu6yge7i7six5y@ebxm5lgxoknqdfx75eycfx6vy5n2tuflqhuhfia")
+  export PLANT_BEAN_SHARECODES=$(Combin_Sub ForOtherBean)
   ## 东东工厂(jd_jdfactory.js)
-  export DDFACTORY_SHARECODES=$(Combin_Sub ForOtherJdFactory "T0225KkcRhwZp1HXJk70k_8CfQCjVWnYaS5kRrbA@T0205KkcAVhorA6EfG6dwb9ACjVWnYaS5kRrbA@T0205KkcG1tgqh22f1-s54tXCjVWnYaS5kRrbA" "T019__l2QBYe_UneIRj9lv8CjVWnYaS5kRrbA@T0205KkcNFd5nz6dXnCV4r9gCjVWnYaS5kRrbA")
+  export DDFACTORY_SHARECODES=$(Combin_Sub ForOtherJdFactory)
   ## 京喜工厂(jd_dreamFactory.js)
-  export DREAM_FACTORY_SHARE_CODES=$(Combin_Sub ForOtherDreamFactory "piDVq-y7O_2SyEzi5ZxxYw==@IzYimRViEUHMiUDFhPPLOg==@ieXM8XzpopOaevcW0f1OwA==" "y0k9IDhCNqQvEov0x2ugNQ==")
+  export DREAM_FACTORY_SHARE_CODES=$(Combin_Sub ForOtherDreamFactory)
   ## 京东赚赚(jd_jdzz.js)
-  export JDZZ_SHARECODES=$(Combin_Sub ForOtherJdzz "S5KkcRhwZp1HXJk70k_8CfQ@S5KkcAVhorA6EfG6dwb9A@S5KkcG1tgqh22f1-s54tX")
+  export JDZZ_SHARECODES=$(Combin_Sub ForOtherJdzz)
   ## 疯狂的Joy(jd_crazy_joy.js)
-  export JDJOY_SHARECODES=$(Combin_Sub ForOtherJoy "N1ihLmXRx9ahdnutDzc1Vqt9zd5YaBeE@o8k-j4vfLXWhsdA5HoPq-w==@zw2aNaUUBen1acOglloXVw==")
+  export JDJOY_SHARECODES=$(Combin_Sub ForOtherJoy)
   ## 口袋书店(jd_bookshop.js)
   export BOOKSHOP_SHARECODES=$(Combin_Sub ForOtherBookShop)
   ## 签到领现金(jd_cash.js)
-  export JD_CASH_SHARECODES=$(Combin_Sub ForOtherCash "eU9Yau6yNPkm9zrVzHsb3w@eU9YLarDP6Z1rRq8njtZ@eU9YN6nLObVHriuNuA9O")
+  export JD_CASH_SHARECODES=$(Combin_Sub ForOtherCash)
   ## 京喜农场(jd_jxnc.js)
   export JXNC_SHARECODES=$(Combin_Sub ForOtherJxnc)
   ## 闪购盲盒(jd_sgmh.js)
@@ -149,9 +149,9 @@ function Combin_All() {
   ## 京喜财富岛(jd_cfd.js)
   export JDCFD_SHARECODES=$(Combin_Sub ForOtherCfd)
   ## 环球挑战赛(jd_global.js)
-  export JDGLOBAL_SHARECODES=$(Combin_Sub ForOtherGlobal "MjNtTnVxbXJvMGlWTHc5Sm9kUXZ3VUM4R241aDFjblhybHhTWFYvQmZUOD0")
+  export JDGLOBAL_SHARECODES=$(Combin_Sub ForOtherGlobal)
   ## 京东手机狂欢城(jd_carnivalcity.js)
-  export JD818_SHARECODES=$(Combin_Sub ForOtherCarnivalcity "5443fec1-7dbc-4d92-a09b-b7eb0a01199f@8c2a0d3a-b4d7-4bbf-bccc-4e7efc18f849")
+  export JD818_SHARECODES=$(Combin_Sub ForOtherCarnivalcity)
 
   export JDHEALTH_SHARECODES=$(Combin_Sub ForOtherHealth)
 }
@@ -299,7 +299,7 @@ function panelon() {
   cd ${PanelDir}
   [ ! $NodeType = nohup ] && [ $IsWebShell = true ] && pm2 start ${PanelDir}/ttyd --name="WebShell" -- -p 9999 -t fontSize=14 -t disableLeaveAlert=true -t rendererType=webgl bash >/dev/null 2>&1 &
   [ ! $NodeType = nohup ] && pm2 start ${PanelDir}/server.js && echo "成功，按回车继续" &
-  
+
   [ $NodeType = nohup ] && [ $IsWebShell = true ] && nohup ./ttyd -p 9999 -t fontSize=14 -t disableLeaveAlert=true -t rendererType=webgl bash >/dev/null 2>&1 &
   [ $NodeType = nohup ] && nohup node ${PanelDir}/server.js >/dev/null 2>&1 &
 
@@ -316,6 +316,11 @@ function paneloff() {
   pm2 delete all >/dev/null 2>&1
   pkill -9 ttyd >/dev/null 2>&1
   pkill -9 node >/dev/null 2>&1
+}
+
+# 清除日志
+function clean() {
+  sh ${ShellDir}/rm_log.sh
 }
 
 ## 重置密码
@@ -392,6 +397,8 @@ case $# in
     panelon
   elif [[ $1 == paneloff ]]; then
     paneloff
+  elif [[ $1 == clean ]]; then
+    clean
   else
     Run_Normal $1
   fi
