@@ -1,7 +1,7 @@
 FROM node:lts-alpine
 LABEL maintainer="Virola <virola@foxmail.com>"
-ARG JD_BASE_URL=https://gitee.com/virola/js_panel.git
-ARG JD_BASE_BRANCH=dev
+ARG JD_BASE_URL=https://gitee.com/virola/public-panel
+ARG JD_BASE_BRANCH=master
 ARG JD_SCRIPTS_URL=https://gitee.com/highdimen/clone_scripts
 ARG JD_SCRIPTS_BRANCH=master
 ARG JD_SCRIPTS2_URL=https://gitee.com/highdimen/jd_scripts
@@ -35,7 +35,6 @@ RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories
     && git clone -b ${JD_SCRIPTS_BRANCH} ${JD_SCRIPTS_URL} ${JD_DIR}/scripts \
     && cd ${JD_DIR}/scripts \
     && npm install \
-    && npm install -g pm2 \
     && git clone -b ${JD_SCRIPTS2_BRANCH} ${JD_SCRIPTS2_URL} ${JD_DIR}/scripts2 \
     && rm -rf /root/.npm
 WORKDIR ${JD_DIR}
