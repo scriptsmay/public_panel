@@ -369,22 +369,12 @@ app.use(bodyParser.json({ limit: '50mb' }))
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }))
 app.use(express.static(path.join(__dirname, 'public')))
 
-// ttyd proxy
-// app.use('/shell', createProxyMiddleware({
-//     target: 'http://localhost:9999',
-//     ws: true,
-//     changeOrigin: true,
-//     pathRewrite: {
-//         '^/shell': '/',
-//     },
-// }));
-
 /**
  * 登录页面
  */
 app.get('/', function (request, response) {
     if (request.session.loggedin) {
-        response.redirect('./usrconfig')
+        response.redirect('./home')
     } else {
         response.sendFile(path.join(__dirname + '/public/auth.html'))
     }
@@ -505,7 +495,13 @@ app.get('/api/config/:key', function (request, response) {
  */
 app.get('/home', function (request, response) {
     if (request.session.loggedin) {
-        response.sendFile(path.join(__dirname + '/public/home.html'))
+        if (request.session.role == 'admin') {
+            response.sendFile(path.join(__dirname + '/public/home.html'))
+        }
+        if (request.session.role == 'guest') {
+            response.sendFile(path.join(__dirname + '/public/cookie.html'))
+        }
+
     } else {
         response.redirect('/')
     }
@@ -515,7 +511,7 @@ app.get('/home', function (request, response) {
  * 配置页面
  */
 app.get('/usrconfig', function (request, response) {
-    if (request.session.loggedin) {
+    if (request.session.loggedin && request.session.role == 'admin') {
         response.sendFile(path.join(__dirname + '/public/usrconfig.html'))
     } else {
         response.redirect('/')
@@ -526,7 +522,7 @@ app.get('/usrconfig', function (request, response) {
  * 对比 配置页面
  */
 app.get('/diff', function (request, response) {
-    if (request.session.loggedin) {
+    if (request.session.loggedin && request.session.role == 'admin') {
         response.sendFile(path.join(__dirname + '/public/diff.html'))
     } else {
         response.redirect('/')
@@ -537,7 +533,7 @@ app.get('/diff', function (request, response) {
  * Share Code 页面
  */
 app.get('/shareCode', function (request, response) {
-    if (request.session.loggedin) {
+    if (request.session.loggedin && request.session.role == 'admin') {
         response.sendFile(path.join(__dirname + '/public/shareCode.html'))
     } else {
         response.redirect('/')
@@ -548,7 +544,7 @@ app.get('/shareCode', function (request, response) {
  * crontab 配置页面
  */
 app.get('/crontab', function (request, response) {
-    if (request.session.loggedin) {
+    if (request.session.loggedin && request.session.role == 'admin') {
         response.sendFile(path.join(__dirname + '/public/crontab.html'))
     } else {
         response.redirect('/')
@@ -559,7 +555,7 @@ app.get('/crontab', function (request, response) {
  * 自定义脚本 页面
  */
 app.get('/diy', function (request, response) {
-    if (request.session.loggedin) {
+    if (request.session.loggedin && request.session.role == 'admin') {
         response.sendFile(path.join(__dirname + '/public/diy.html'))
     } else {
         response.redirect('/')
@@ -570,7 +566,7 @@ app.get('/diy', function (request, response) {
  * 手动执行脚本 页面
  */
 app.get('/run', function (request, response) {
-    if (request.session.loggedin) {
+    if (request.session.loggedin && request.session.role == 'admin') {
         response.sendFile(path.join(__dirname + '/public/run.html'))
     } else {
         response.redirect('/')
@@ -578,7 +574,7 @@ app.get('/run', function (request, response) {
 })
 
 app.post('/runCmd', function (request, response) {
-    if (request.session.loggedin) {
+    if (request.session.loggedin && request.session.role == 'admin') {
         const cmd = `cd ${rootPath};` + request.body.cmd
         const delay = request.body.delay || 0
         // console.log('before exec');
@@ -617,7 +613,7 @@ app.post('/runCmd', function (request, response) {
  * 使用jsName获取最新的日志
  */
 app.get('/runLog/:jsName', function (request, response) {
-    if (request.session.loggedin) {
+    if (request.session.loggedin && request.session.role == 'admin') {
         const jsName = request.params.jsName
         let shareCodeFile = getLastModifyFilePath(path.join(rootPath, `log/${jsName}/`))
         if (jsName === 'rm_log') {
@@ -649,6 +645,13 @@ app.post('/auth', function (request, response) {
             if (username == con.user && password == con.password) {
                 request.session.loggedin = true
                 request.session.username = username
+                request.session.role = 'admin'
+                response.send({ err: 0 })
+            } else if (username == 'member' && password == con.password) {
+                // 普通用户
+                request.session.loggedin = true
+                request.session.role = 'guest'
+                request.session.username = username
                 response.send({ err: 0 })
             } else {
                 response.send({ err: 1, msg: authError })
@@ -664,7 +667,7 @@ app.post('/auth', function (request, response) {
  * change pwd
  */
 app.post('/changepass', function (request, response) {
-    if (request.session.loggedin) {
+    if (request.session.loggedin && request.session.role == 'admin') {
         let username = request.body.username
         let password = request.body.password
         let config = {
@@ -700,7 +703,7 @@ app.get('/logout', function (request, response) {
  */
 
 app.post('/api/save', function (request, response) {
-    if (request.session.loggedin) {
+    if (request.session.loggedin && request.session.role == 'admin') {
         let postContent = request.body.content
         let postfile = request.body.name
         saveNewConf(postfile, postContent)
@@ -714,7 +717,7 @@ app.post('/api/save', function (request, response) {
  * 日志查询 页面
  */
 app.get('/log', function (request, response) {
-    if (request.session.loggedin) {
+    if (request.session.loggedin && request.session.role == 'admin') {
         response.sendFile(path.join(__dirname + '/public/tasklog.html'))
     } else {
         response.redirect('/')
@@ -725,7 +728,7 @@ app.get('/log', function (request, response) {
  * 日志列表
  */
 app.get('/api/logs', function (request, response) {
-    if (request.session.loggedin) {
+    if (request.session.loggedin && request.session.role == 'admin') {
         var fileList = fs.readdirSync(logPath, 'utf-8')
         var dirs = []
         var rootFiles = []
@@ -760,7 +763,7 @@ app.get('/api/logs', function (request, response) {
  * 日志文件
  */
 app.get('/api/logs/:dir/:file', function (request, response) {
-    if (request.session.loggedin) {
+    if (request.session.loggedin && request.session.role == 'admin') {
         let filePath
         if (request.params.dir === '@') {
             filePath = logPath + request.params.file
@@ -779,7 +782,7 @@ app.get('/api/logs/:dir/:file', function (request, response) {
  * 查看脚本 页面
  */
 app.get('/viewScripts', function (request, response) {
-    if (request.session.loggedin) {
+    if (request.session.loggedin && request.session.role == 'admin') {
         response.sendFile(path.join(__dirname + '/public/viewScripts.html'))
     } else {
         response.redirect('/')
@@ -790,7 +793,7 @@ app.get('/viewScripts', function (request, response) {
  * 脚本列表
  */
 app.get('/api/scripts', function (request, response) {
-    if (request.session.loggedin) {
+    if (request.session.loggedin && request.session.role == 'admin') {
         var fileList = fs.readdirSync(ScriptsPath, 'utf-8')
         var dirs = []
         var rootFiles = []
@@ -835,7 +838,7 @@ app.get('/api/scripts', function (request, response) {
  * 脚本文件
  */
 app.get('/api/scripts/:dir/:file', function (request, response) {
-    if (request.session.loggedin) {
+    if (request.session.loggedin && request.session.role == 'admin') {
         let filePath
         if (request.params.dir === '@') {
             filePath = ScriptsPath + request.params.file
