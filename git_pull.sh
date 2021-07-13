@@ -36,7 +36,7 @@ ContentDropTask=${ShellDir}/drop_task
 SendCount=${ShellDir}/send_count
 isTermux=${ANDROID_RUNTIME_ROOT}${ANDROID_ROOT}
 WhichDep=$(grep "/jd_shell" "${ShellDir}/.git/config")
-Scripts2URL=https://gitee.com/highdimen/jd_scripts
+Scripts2URL=https://gitee.com/virola/j_scripts.git
 PanelDir=${ShellDir}/panel
 panelpwd=${ConfigDir}/auth.json
 panelpwdSample=${ShellDir}/sample/auth.json
@@ -527,8 +527,8 @@ if [ ${ExitStatusShell} -eq 0 ]; then
   [ -d ${ScriptsDir}/.git ] && Git_PullScripts || Git_CloneScripts
   #测试自写脚本
   [ -d ${Scripts2Dir}/.git ] && Git_PullScripts2 || Git_CloneScripts2
-  cp -f ${Scripts2Dir}/jd_*.js ${ScriptsDir}
-  [ -f ${Scripts2Dir}/ZooFaker.js ] && cp -f ${Scripts2Dir}/ZooFaker.js ${ScriptsDir}
+  #先注释掉看看情况
+  #cp -f ${Scripts2Dir}/jd_*.js ${ScriptsDir}
   cp -rf ${Scripts2Dir}/sendNotify.js ${ScriptsDir}/sendNotify.js
 fi
 
