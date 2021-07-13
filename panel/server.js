@@ -703,11 +703,11 @@ app.get('/logout', function (request, response) {
  */
 
 app.post('/api/save', function (request, response) {
-    if (request.session.loggedin && request.session.role == 'admin') {
+    if (request.session.loggedin) {
         let postContent = request.body.content
         let postfile = request.body.name
         saveNewConf(postfile, postContent)
-        response.send({ err: 0, title: '保存成功! ', msg: '将自动刷新页面查看修改后的 ' + postfile + ' 文件' })
+        response.send({ err: 0, title: '保存成功! ', msg: '将自动刷新页面' })
     } else {
         response.send({ err: 1, title: '保存失败! ', msg: loginFaild })
     }
