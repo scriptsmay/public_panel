@@ -36,13 +36,13 @@ ContentDropTask=${ShellDir}/drop_task
 SendCount=${ShellDir}/send_count
 isTermux=${ANDROID_RUNTIME_ROOT}${ANDROID_ROOT}
 WhichDep=$(grep "/jd_shell" "${ShellDir}/.git/config")
-Scripts2URL=https://gitee.com/virola/j_scripts.git
+Scripts2URL=https://gitee.com/virola/j_scripts
 PanelDir=${ShellDir}/panel
 panelpwd=${ConfigDir}/auth.json
 panelpwdSample=${ShellDir}/sample/auth.json
 
 ScriptsURL=https://gitee.com/highdimen/clone_scripts
-ShellURL=https://gitee.com/virola/js_panel
+ShellURL=https://gitee.com/virola/public-panel
 
 function SourceUrl_Update {
   if [ -s ${ScriptsDir}/.git/config ]; then
