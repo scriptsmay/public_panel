@@ -181,6 +181,7 @@ nav .active a {
 
 .login-form input[type="submit"] {
     appearance: none;
+    -webkit-appearance: none;
     width: 100%;
     padding: 15px;
     background-color: #6D8A88;
