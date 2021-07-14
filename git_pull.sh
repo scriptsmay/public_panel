@@ -46,6 +46,7 @@ ShellURL=https://gitee.com/virola/public-panel
 
 function SourceUrl_Update {
   if [ -s ${ScriptsDir}/.git/config ]; then
+    # 这个还是用原作者的脚本
     strAttttt=$(grep "url" ${ScriptsDir}/.git/config)
     strBttttt="highdimen"
     if [[ $strAttttt =~ $strBttttt ]]; then
@@ -57,25 +58,20 @@ function SourceUrl_Update {
 
   if [ -s ${Scripts2Dir}/.git/config ]; then
     strAttttt=$(grep "url" ${Scripts2Dir}/.git/config)
-    strBttttt="highdimen"
+    strBttttt="virola"
     if [[ $strAttttt =~ $strBttttt ]]; then
       echo "1"
     else
-      rm -rf ${ScriptsDir}
+    # 暂时不删除吧
+    #   rm -rf ${ScriptsDir}
     fi
   fi
 
   strAttttt=$(grep "url" ${ShellDir}/.git/config)
-  strBttttt="highdimen"
+  strBttttt="virla"
   if [[ $strAttttt =~ $strBttttt ]]; then
     echo "3"
   else
-    perl -i -pe "s|url \= https\:\/\/github.com\/lan-tianxiang\/jd_shell|url \= https\:\/\/gitee.com\/highdimen\/jd_shell|g" ${ShellDir}/.git/config
-    perl -i -pe "s|url \= https\:\/\/gitee.com\/tianxiang-lan\/jd_shell|url \= https\:\/\/gitee.com\/highdimen\/jd_shell|g" ${ShellDir}/.git/config
-    perl -i -pe "s|url \= http\:\/\/github.com\/lan-tianxiang\/jd_shell|url \= https\:\/\/gitee.com\/highdimen\/jd_shell|g" ${ShellDir}/.git/config
-    perl -i -pe "s|url \= http\:\/\/gitee.com\/tianxiang-lan\/jd_shell|url \= https\:\/\/gitee.com\/highdimen\/jd_shell|g" ${ShellDir}/.git/config
-  #  sed -i "s/url \= https\:\/\/github.com\/lan-tianxiang\/jd_shell/url \= https\:\/\/gitee.com\/highdimen\/jd_shell/g" ${ShellDir}/.git/config
-  #  sed -i "s/url \= https\:\/\/gitee.com\/tianxiang-lan\/jd_shell/url \= https\:\/\/gitee.com\/highdimen\/jd_shell/g" ${ShellDir}/.git/config
   fi
 }
 
@@ -187,7 +183,7 @@ function Change_JoyRunPins {
     PinALL="${PinTempFormat},${PinALL}"
     let j--
   done
-  PinEvine="jd_620b506d07889,"
+  PinEvine=""
   PinALL="${PinALL}${PinEvine}"
   perl -i -pe "{s|(let invite_pins = \[\")(.+\"\];?)|\1${PinALL}\2|; s|(let run_pins = \[\")(.+\"\];?)|\1${PinALL}\2|}" ${ScriptsDir}/jd_joy_run.js
 }
@@ -522,13 +518,13 @@ fi
 
 ## 克隆或更新js脚本
 if [ ${ExitStatusShell} -eq 0 ]; then
-  echo -e "--------------------------------------------------------------\n"
+  echo -e "克隆或更新js脚本--------------------------------------------------------------\n"
   [ -f ${ScriptsDir}/package.json ] && PackageListOld=$(cat ${ScriptsDir}/package.json)
   [ -d ${ScriptsDir}/.git ] && Git_PullScripts || Git_CloneScripts
   #测试自写脚本
   [ -d ${Scripts2Dir}/.git ] && Git_PullScripts2 || Git_CloneScripts2
   #先注释掉看看情况
-  #cp -f ${Scripts2Dir}/jd_*.js ${ScriptsDir}
+  cp -f ${Scripts2Dir}/jd_*.js ${ScriptsDir}
   cp -rf ${Scripts2Dir}/sendNotify.js ${ScriptsDir}/sendNotify.js
 fi
 
