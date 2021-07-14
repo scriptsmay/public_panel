@@ -126,19 +126,19 @@ function Git_PullShell {
 
 ## 克隆scripts
 function Git_CloneScripts {
-  echo -e "克隆LXK9301脚本，原地址：${ScriptsURL}\n"
-  git clone -b master ${ScriptsURL} ${ScriptsDir}
+  echo -e "克隆 JDHelloWorld 脚本，原地址：${ScriptsURL}\n"
+  git clone -b main ${ScriptsURL} ${ScriptsDir}
   ExitStatusScripts=$?
   echo
 }
 
 ## 更新scripts
 function Git_PullScripts {
-  echo -e "更新LXK9301脚本，原地址：${ScriptsURL}\n"
+  echo -e "更新 JDHelloWorld 脚本，原地址：${ScriptsURL}\n"
   cd ${ScriptsDir}
   git fetch --all
   ExitStatusScripts=$?
-  git reset --hard origin/master
+  git reset --hard origin/main
   echo
 }
 
