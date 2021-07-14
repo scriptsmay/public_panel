@@ -60,10 +60,10 @@ function SourceUrl_Update {
     strAttttt=$(grep "url" ${Scripts2Dir}/.git/config)
     strBttttt="virola"
     if [[ $strAttttt =~ $strBttttt ]]; then
-      echo "1"
+      echo "Scripts2Dir - 1"
     else
-    # 暂时不删除吧
-    #   rm -rf ${ScriptsDir}
+      echo "Scripts2Dir - rm"
+      rm -rf ${Scripts2Dir}
     fi
   fi
 
