@@ -5,6 +5,12 @@
 ## Modified： 2021-07-09
 ## Version： v3.7.0
 
+# https://github.com/JDHelloWorld/jd_scripts.git
+# https://gitee.com/highdimen/clone_scripts
+ScriptsURL=https://github.com/JDHelloWorld/jd_scripts.git
+Scripts2URL=https://gitee.com/virola/j_scripts
+ShellURL=https://gitee.com/virola/public-panel
+
 ## 文件路径、脚本网址、文件版本以及各种环境的判断
 ShellDir=${JD_DIR:-$(
   cd $(dirname $0)
@@ -36,13 +42,9 @@ ContentDropTask=${ShellDir}/drop_task
 SendCount=${ShellDir}/send_count
 isTermux=${ANDROID_RUNTIME_ROOT}${ANDROID_ROOT}
 WhichDep=$(grep "/jd_shell" "${ShellDir}/.git/config")
-Scripts2URL=https://gitee.com/virola/j_scripts
 PanelDir=${ShellDir}/panel
 panelpwd=${ConfigDir}/auth.json
 panelpwdSample=${ShellDir}/sample/auth.json
-
-ScriptsURL=https://gitee.com/highdimen/clone_scripts
-ShellURL=https://gitee.com/virola/public-panel
 
 function SourceUrl_Update {
   if [ -s ${ScriptsDir}/.git/config ]; then
