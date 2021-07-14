@@ -7,7 +7,7 @@
 
 # https://github.com/JDHelloWorld/jd_scripts.git
 # https://gitee.com/highdimen/clone_scripts
-ScriptsURL=https://github.com/JDHelloWorld/jd_scripts.git
+ScriptsURL=https://gitee.com/highdimen/clone_scripts
 Scripts2URL=https://gitee.com/virola/j_scripts
 ShellURL=https://gitee.com/virola/public-panel
 
@@ -127,7 +127,7 @@ function Git_PullShell {
 ## 克隆scripts
 function Git_CloneScripts {
   echo -e "克隆 JDHelloWorld 脚本，原地址：${ScriptsURL}\n"
-  git clone -b main ${ScriptsURL} ${ScriptsDir}
+  git clone -b master ${ScriptsURL} ${ScriptsDir}
   ExitStatusScripts=$?
   echo
 }
@@ -138,7 +138,7 @@ function Git_PullScripts {
   cd ${ScriptsDir}
   git fetch --all
   ExitStatusScripts=$?
-  git reset --hard origin/main
+  git reset --hard origin/master
   echo
 }
 
