@@ -50,7 +50,7 @@ function SourceUrl_Update {
     strAttttt=$(grep "url" ${ScriptsDir}/.git/config)
     strBttttt="highdimen"
     if [[ $strAttttt =~ $strBttttt ]]; then
-      echo "1"
+      echo "1 - ${strAttttt}"
     else
       rm -rf ${ScriptsDir}
     fi
@@ -68,21 +68,16 @@ function SourceUrl_Update {
   fi
 
   strAttttt=$(grep "url" ${ShellDir}/.git/config)
-  strBttttt="virla"
+  strBttttt="virola"
   if [[ $strAttttt =~ $strBttttt ]]; then
-    echo "3"
+    echo "ShellDir - 3"
   else
+    echo "ShellDir - 4"
   fi
 }
 
 fix_config() {
-  #crontab -r
-  #rm -rf ${ListCron}
-  #cp -f $FileListCronSample $ListCron
-  perl -i -pe "{
-      s|.+(jd(\.sh)? jd_zoo)|0 \*\/2 \* \* \* \1|g;
-      s|.+(jd(\.sh)? jd_zooCollect)|20,40 \* \* \* \* \1|g;
-    }" ${ListCron}
+
   crontab ${ListCron}
 }
 
