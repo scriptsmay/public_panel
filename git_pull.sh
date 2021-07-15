@@ -2,8 +2,8 @@
 
 ## Author: lan-tianxiang, V
 ## Source: https://github.com/lan-tianxiang/jd_shell
-## Modified： 2021-07-09
-## Version： v3.7.0
+## Modified： 2021-07-15
+## Version： v3.8.0
 
 # https://github.com/JDHelloWorld/jd_scripts.git
 # https://gitee.com/highdimen/clone_scripts
@@ -202,6 +202,7 @@ function Change_ALL {
 ## js.list      上述检测文件中用来运行js脚本的清单（去掉后缀.js，非运行脚本的不会包括在内）
 ## js-add.list  如果上述检测文件增加了定时任务，这个文件内容将不为空
 ## js-drop.list 如果上述检测文件删除了定时任务，这个文件内容将不为空
+## add: 增加 ts 文件
 function Diff_Cron {
   if [ -f ${ListCron} ]; then
     if [ -n "${JD_DIR}" ]; then
@@ -209,7 +210,7 @@ function Diff_Cron {
     else
       grep "${ShellDir}/" ${ListCron} | grep -E " j[drx]_\w+" | perl -pe "s|.+ (j[drx]_\w+).*|\1|" | uniq | sort >${ListTask}
     fi
-    cat ${ListCronLxk} ${ListCronShylocks} | grep -E "j[drx]_\w+\.js" | perl -pe "s|.+(j[drx]_\w+)\.js.+|\1|" | sort >${ListJs}
+    cat ${ListCronLxk} ${ListCronShylocks} | grep -E "j[drx]_\w+\.(js|ts)" | perl -pe "s|.+(j[drx]_\w+)\.(js|ts).+|\1|" | sort >${ListJs}
     grep -vwf ${ListTask} ${ListJs} >${ListJsAdd}
     grep -vwf ${ListJs} ${ListTask} >${ListJsDrop}
   else
@@ -361,7 +362,7 @@ function Add_Cron {
       if [[ ${Cron} == jd_bean_sign ]]; then
         echo "4 0,9 * * * bash ${ShellJd} ${Cron}" >>${ListCron}
       else
-        cat ${ListCronLxk} ${ListCronShylocks} | grep -E "\/${Cron}\." | perl -pe "s|(^.+)node */scripts/(j[drx]_\w+)\.js.+|\1bash ${ShellJd} \2|" >>${ListCron}
+        cat ${ListCronLxk} ${ListCronShylocks} | grep -E "\/${Cron}\." | perl -pe "s|(^.+)node */scripts/(j[drx]_\w+)\.(js|ts).+|\1bash ${ShellJd} \2|" >>${ListCron}
       fi
     done
 
@@ -488,6 +489,21 @@ function panelinit {
   fi
 }
 
+# 放在这个初始化python3环境，目的减小镜像体积，一些不需要使用bot交互的用户可以不用拉体积比较大的镜像
+# 在这个任务里面还有初始化还有目的就是为了方便bot更新了新功能的话只需要重启容器就完成更新
+function initPythonEnv() {
+  echo "开始安装运行jd_bot需要的python环境及依赖..."
+  apk add --update python3-dev py3-pip py3-cryptography py3-numpy py-pillow
+  echo "开始安装jd_bot依赖..."
+  #测试
+  #cd /jd_docker/docker/bot
+  #合并
+  cd ${ScriptsDir}/docker/bot
+  pip3 install --upgrade pip
+  pip3 install -r requirements.txt
+  python3 setup.py install
+}
+
 ## 在日志中记录时间与路径
 echo -e ''
 echo -e "+----------------- 开 始 执 行 更 新 脚 本 -----------------+"
@@ -531,6 +547,8 @@ if [[ ${ExitStatusScripts} -eq 0 ]]; then
   [ -d ${ScriptsDir}/node_modules ] && Notify_Version
   Diff_Cron
   Npm_Install
+  # 增加安装 python 环境
+  initPythonEnv
   Output_ListJsAdd
   Output_ListJsDrop
   Del_Cron

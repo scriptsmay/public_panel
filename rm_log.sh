@@ -29,6 +29,19 @@ function Rm_JsLog {
   done
 }
 
+## 按日期目录的删除日志
+function Rm_JsLog2 {
+  logDateDir=$(ls -l ${LogDir} | awk '{print $9}')
+  for log in ${logDateDir}; do
+    if [[ $(uname -s) == Darwin ]]; then
+      DiffTime=$(($(date +%s) - $(date -j -f "%Y-%m-%d" "${log}" +%s)))
+    else
+      DiffTime=$(($(date +%s) - $(date +%s -d "${log}")))
+    fi
+    [ ${DiffTime} -gt $((${RmLogDaysAgo} * 86400)) ] && rm -rf ${log}
+  done
+}
+
 ## 删除git_pull.sh的运行日志
 function Rm_GitPullLog {
   if [[ $(uname -s) == Darwin ]]; then

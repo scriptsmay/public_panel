@@ -1,8 +1,7 @@
 #!/usr/bin/env bash
 
-## Author: lan-tianxiang
-## Modified： 2021-07-07
-## Version： v3.66.0
+## Modified： 2021-07-15
+## Version： v3.67.0
 
 ## 路径
 ShellDir=${JD_DIR:-$(
@@ -344,19 +343,32 @@ function Run_Normal() {
     echo "0000"
   fi
 
-  FileNameTmp1=$(echo $1 | perl -pe "s|\.js||")
-  FileNameTmp2=$(echo $1 | perl -pe "{s|jd_||; s|\.js||; s|^|jd_|}")
+  FileNameTmp1=$(echo $1 | perl -pe "s|\.(js|ts)||")
+  FileNameTmp2=$(echo $1 | perl -pe "{s|jd_||; s|\.(js|ts)||; s|^|jd_|}")
   SeekDir="${ScriptsDir} ${ScriptsDir}/backUp ${ConfigDir}"
   FileName=""
+  FilePath=""
   WhichDir=""
 
   for dir in ${SeekDir}; do
     if [ -f ${dir}/${FileNameTmp1}.js ]; then
       FileName=${FileNameTmp1}
+      FilePath=${FileNameTmp1}.js
+      WhichDir=${dir}
+      break
+    elif [ -f ${dir}/${FileNameTmp1}.ts ]; then
+      FileName=${FileNameTmp1}
+      FilePath=${FileNameTmp1}.ts
       WhichDir=${dir}
       break
     elif [ -f ${dir}/${FileNameTmp2}.js ]; then
       FileName=${FileNameTmp2}
+      FilePath=${FileNameTmp2}.js
+      WhichDir=${dir}
+      break
+    elif [ -f ${dir}/${FileNameTmp2}.ts ]; then
+      FileName=${FileNameTmp2}
+      FilePath=${FileNameTmp2}.ts
       WhichDir=${dir}
       break
     fi
@@ -367,10 +379,13 @@ function Run_Normal() {
     LogTime=$(date "+%Y-%m-%d-%H-%M-%S")
     LogFile="${LogDir}/${FileName}/${LogTime}.log"
     [ ! -d ${LogDir}/${FileName} ] && mkdir -p ${LogDir}/${FileName}
+    # LogDate=$(date "+%Y%m%d")
+    # LogFile="${LogDir}/${LogDate}/${FileName}.log"
+    # [ ! -d ${LogDir}/${LogDate} ] && mkdir -p ${LogDir}/${LogDate}
     cd ${WhichDir}
     #    env
-    [ ${TasksTerminateTime} = 0 ] && node ${FileName}.js | tee ${LogFile}
-    [ ${TasksTerminateTime} -ne 0 ] && timeout ${TasksTerminateTime} node ${FileName}.js | tee ${LogFile}
+    [ ${TasksTerminateTime} = 0 ] && node ${FilePath} | tee ${LogFile}
+    [ ${TasksTerminateTime} -ne 0 ] && timeout ${TasksTerminateTime} node ${FilePath} | tee ${LogFile}
   else
     echo -e "\n在${ScriptsDir}、${ScriptsDir}/backUp、${ConfigDir}三个目录下均未检测到 $1 脚本的存在，请确认...\n"
     Help
