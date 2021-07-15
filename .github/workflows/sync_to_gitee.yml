@@ -1,0 +1,36 @@
+# File: .github/workflows/sync_to_gitee.yml
+name: sync_to_gitee
+on:
+  workflow_dispatch:
+# 可以设置定时任务，每天同步2次
+#   schedule:
+#     - cron: '1 0,15 * * *'
+#   watch:
+#     types: started
+  push:
+    branches: [ master ]
+jobs:
+  repo-sync:
+    env:
+      PAT: ${{ secrets.ACCESS_TOKEN }}
+      dst_key: ${{ secrets.GITEE_RSA_PRIVATE_KEY }}
+    runs-on: ubuntu-latest
+    if: github.event.repository.owner.id == github.event.sender.id
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          persist-credentials: false
+
+      # 一个用于在hub间（例如Github，Gitee）账户代码仓库同步的action
+      - name: sync github -> gitee
+        uses: Yikun/hub-mirror-action@master
+        if: env.dst_key
+        with:
+          src: github/scriptsmay
+          dst: gitee/virola
+          dst_key: ${{ secrets.GITEE_RSA_PRIVATE_KEY }}
+          dst_token: ${{ secrets.GITEE_TOKEN }}
+          # 静态名单（可用于单一仓库同步）
+          static_list: "public_panel"
+          force_update: true
+          timeout: '1h'

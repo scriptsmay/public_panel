@@ -1,8 +1,8 @@
 name: Built_To_Docker
 on:
   workflow_dispatch:
-  schedule:
-    - cron: '30 * * * *'
+#  schedule:
+#    - cron: '30 * * * *'
 
 jobs:
   docker:
@@ -34,7 +34,7 @@ jobs:
       - name: Delete Workflow Runs
         uses: Mattraks/delete-workflow-runs@main
         with:
-          token: ${{ github.token }}
+          token: ${{ ACCESS_TOKEN }}
           repository: ${{ github.repository }}
           retain_days: 1
           keep_minimum_runs: 0
