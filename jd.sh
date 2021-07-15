@@ -288,17 +288,9 @@ function panelon() {
   ## 安装pm2
   [ ! $NodeType = nohup ] && [ ! -x "$(command -v pm2)" ] && npm install pm2@latest -g
 
-  ## 复制ttyd
-  cd ${PanelDir}
-  [ $SYSTEMTYPE = arm ] && [ ! -f ${PanelDir}/ttyd ] && cp -f ${PanelDir}/webshellbinary/ttyd.arm ${PanelDir}/ttyd && [ ! -x ${PanelDir}/ttyd ] && chmod +x ${PanelDir}/ttyd && echo 1
-  [ ! $SYSTEM = Android ] && [ ! -f ${PanelDir}/ttyd ] && cp -f ${PanelDir}/webshellbinary/ttyd.$(uname -m) ${PanelDir}/ttyd && [ ! -x ${PanelDir}/ttyd ] && chmod +x ${PanelDir}/ttyd echo 1
-
   paneloff
   cd ${PanelDir}
-  [ ! $NodeType = nohup ] && [ $IsWebShell = true ] && pm2 start ${PanelDir}/ttyd --name="WebShell" -- -p 9999 -t fontSize=14 -t disableLeaveAlert=true -t rendererType=webgl bash >/dev/null 2>&1 &
   [ ! $NodeType = nohup ] && pm2 start ${PanelDir}/server.js && echo "成功，按回车继续" &
-
-  [ $NodeType = nohup ] && [ $IsWebShell = true ] && nohup ./ttyd -p 9999 -t fontSize=14 -t disableLeaveAlert=true -t rendererType=webgl bash >/dev/null 2>&1 &
   [ $NodeType = nohup ] && nohup node ${PanelDir}/server.js >/dev/null 2>&1 &
 
   if [ $? -ne 0 ]; then
