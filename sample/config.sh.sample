@@ -1,6 +1,6 @@
-## Version: v3.12.0
-## Date: 2021-06-19
-## Update Content: 领现金兑换红包接口（选填） 6-19
+## Version: v3.12.1
+## Date: 2021-07-15
+## Update Content: 增加消息通知过滤 7-15
 
 ## 上面版本号中，如果第2位数字有变化，那么代表增加了新的参数，如果只有第3位数字有变化，仅代表更新了注释，没有增加新的参数，可更新可不更新
 ## 如需更新，请参考WIKI（https://github.com/lan-tianxiang/jd_shell/wiki）中"如何更新配置文件"部分的操作说明，进行智能比对后修改。
@@ -154,7 +154,7 @@ export BARK_PUSH=""
 export BARK_SOUND=""
 
 
-## 3. Telegram 
+## 3. Telegram
 ## 具体教程：https://gitee.com/lxk0301/jd_docker/blob/master/backUp/TG_PUSH.md
 ## 需设备可连接外网，"TG_BOT_TOKEN"和"TG_USER_ID"必须同时赋值！
 ## 下方填写自己申请@BotFather的Token，如10xxx4:AAFcqxxxxgER5uw
@@ -183,7 +183,7 @@ export TG_USER_ID=""
 # export TG_API_HOST=""
 
 
-## 4. 钉钉 
+## 4. 钉钉
 ## 官方文档：https://developers.dingtalk.com/document/app/custom-robot-access
 ## 参考图片：https://gitee.com/lxk0301/jd_docker/blob/master/icon/DD_bot.png
 ## "DD_BOT_TOKEN"和"DD_BOT_SECRET"必须同时赋值！
@@ -207,6 +207,12 @@ export QYWX_KEY=""
 ## 下方填写素材库图片id（corpid,corpsecret,touser,agentid），素材库图片填0为图文消息, 填1为纯文本消息
 export QYWX_AM=""
 
+## 企业微信应用通知的分组，需要基于 QYWX_AM 的基准值，针对不同的账号序号做通知分组
+# export QYWX_AM_GROUP="[{\"acount\":[1,2,3],\"touser\":\"aaa|bbb\"}]"
+
+## 企业微信应用通知的推送，仅推送指定文本标题的消息，其他不推送
+## 屏蔽过多的微信通知消息
+# export QYWX_AM_FILTER_TITLE="东东农场 京喜工厂"
 
 ## 7. iGot聚合
 ## 参考文档：https://wahao.github.io/Bark-MP-helper
@@ -221,7 +227,7 @@ export PUSH_PLUS_TOKEN=""
 
 ## 一对一多推送（选填）
 ## 下方填写您的一对多推送的 "群组编码" ，（一对多推送下面->您的群组(如无则新建)->群组编码）
-## 注 1. 需订阅者扫描二维码 
+## 注 1. 需订阅者扫描二维码
 ##    2、如果您是创建群组所属人，也需点击“查看二维码”扫描绑定，否则不能接受群组消息推送
 export PUSH_PLUS_USER=""
 
@@ -555,7 +561,7 @@ export FRUIT_BEAN_CARD=""
 ################################## 24. 定义 unsubscribe 取关参数（选填） ##################################
 ## 具体教程：https://gitee.com/lxk0301/jd_docker/blob/master/githubAction.md#%E5%8F%96%E5%85%B3%E5%BA%97%E9%93%BAsecret%E7%9A%84%E8%AF%B4%E6%98%8E
 ## jd_unsubscribe这个任务是用来取关每天做任务关注的商品和店铺，默认在每次运行时取关20个商品和20个店铺
-## 如果取关数量不够，可以根据情况增加，还可以设置 jdUnsubscribeStopGoods 和 jdUnsubscribeStopShop 
+## 如果取关数量不够，可以根据情况增加，还可以设置 jdUnsubscribeStopGoods 和 jdUnsubscribeStopShop
 ## 商品取关数量
 export goodPageSize="30"
 ## 店铺取关数量
