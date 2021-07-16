@@ -548,7 +548,7 @@ if [[ ${ExitStatusScripts} -eq 0 ]]; then
   Diff_Cron
   Npm_Install
   # 增加安装 python 环境
-  initPythonEnv
+  #initPythonEnv
   Output_ListJsAdd
   Output_ListJsDrop
   Del_Cron
