@@ -1,6 +1,6 @@
 FROM node:lts-alpine
 LABEL maintainer="Virola <virola@foxmail.com>"
-ARG JD_BASE_URL=https://gitee.com/virola/public-panel
+ARG JD_BASE_URL=https://gitee.com/virola/public_panel
 ARG JD_BASE_BRANCH=master
 ARG JD_SCRIPTS_URL=https://gitee.com/highdimen/clone_scripts
 ARG JD_SCRIPTS_BRANCH=master

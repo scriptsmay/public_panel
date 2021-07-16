@@ -82,7 +82,7 @@ function Welcome() {
 function INSTALLATION_CLONE() {
     echo -e "\n1. 获取源码"
     [ -d ${JdDir} ] && mv ${JdDir} ${JdDir}.bak && echo "检测到已有 ${JdDir} 目录，已备份为 ${JdDir}.bak"
-    git clone -b master https://gitee.com/virola/public-panel ${JdDir}
+    git clone -b master https://gitee.com/virola/public_panel ${JdDir}
 
     echo -e "\n2. 检查配置文件"
     [ ! -d ${JdDir}/config ] && mkdir -p ${JdDir}/config

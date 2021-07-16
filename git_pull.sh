@@ -9,7 +9,7 @@
 # https://gitee.com/highdimen/clone_scripts
 ScriptsURL=https://gitee.com/highdimen/clone_scripts
 Scripts2URL=https://gitee.com/virola/j_scripts
-ShellURL=https://gitee.com/virola/public-panel
+ShellURL=https://gitee.com/virola/public_panel
 
 ## 文件路径、脚本网址、文件版本以及各种环境的判断
 ShellDir=${JD_DIR:-$(
