@@ -5,44 +5,42 @@
  * @thanks: FanchangWang https://github.com/FanchangWang
  */
 
-var express = require('express')
-var session = require('express-session')
-var compression = require('compression')
-var bodyParser = require('body-parser')
-var got = require('got')
-var path = require('path')
-var fs = require('fs')
-var { execSync, exec } = require('child_process')
-// const { createProxyMiddleware } = require('http-proxy-middleware');
+let express = require('express')
+let session = require('express-session')
+let compression = require('compression')
+let got = require('got')
+let path = require('path')
+let fs = require('fs')
+let { execSync, exec } = require('child_process')
 
-var rootPath = path.resolve(__dirname, '..')
+let rootPath = path.resolve(__dirname, '..')
 // cookie.sh 文件所在目录
-var ckFile = path.join(rootPath, 'config/cookie.sh')
+let ckFile = path.join(rootPath, 'config/cookie.sh')
 // config.sh 文件所在目录
-var confFile = path.join(rootPath, 'config/config.sh')
+let confFile = path.join(rootPath, 'config/config.sh')
 // config.sh.sample 文件所在目录
-var sampleFile = path.join(rootPath, 'sample/config.sh.sample')
+let sampleFile = path.join(rootPath, 'sample/config.sh.sample')
 // crontab.list 文件所在目录
-var crontabFile = path.join(rootPath, 'config/crontab.list')
+let crontabFile = path.join(rootPath, 'config/crontab.list')
 // config.sh 文件备份目录
-var confBakDir = path.join(rootPath, 'config/bak/')
+let confBakDir = path.join(rootPath, 'config/bak/')
 // auth.json 文件目录
-var authConfigFile = path.join(rootPath, 'config/auth.json')
+let authConfigFile = path.join(rootPath, 'config/auth.json')
 // Share Code 文件目录
-var shareCodeDir = path.join(rootPath, 'log/jd_get_share_code/')
+let shareCodeDir = path.join(rootPath, 'log/jd_get_share_code/')
 // diy.sh 文件目录
-var diyFile = path.join(rootPath, 'config/diy.sh')
+let diyFile = path.join(rootPath, 'config/diy.sh')
 // 日志目录
-var logPath = path.join(rootPath, 'log/')
+let logPath = path.join(rootPath, 'log/')
 // 脚本目录
-var ScriptsPath = path.join(rootPath, 'scripts/')
+let ScriptsPath = path.join(rootPath, 'scripts/')
 
-var authError = '错误的用户名密码，请重试'
-var loginFaild = '请先登录!'
+let authError = '错误的用户名密码，请重试'
+let loginFaild = '请先登录!'
 
-var configString = 'config usrconfig sample crontab shareCode diy'
+let configString = 'config usrconfig sample crontab shareCode diy'
 
-var s_token,
+let s_token,
     cookies,
     guid,
     lsid,
@@ -63,19 +61,19 @@ function praseSetCookies(response) {
 }
 
 function getCookie(response) {
-    var TrackerID = response.headers['set-cookie'][0]
+    let TrackerID = response.headers['set-cookie'][0]
     TrackerID = TrackerID.substring(TrackerID.indexOf('=') + 1, TrackerID.indexOf(';'))
-    var pt_key = response.headers['set-cookie'][1]
+    let pt_key = response.headers['set-cookie'][1]
     pt_key = pt_key.substring(pt_key.indexOf('=') + 1, pt_key.indexOf(';'))
-    var pt_pin = response.headers['set-cookie'][2]
+    let pt_pin = response.headers['set-cookie'][2]
     pt_pin = pt_pin.substring(pt_pin.indexOf('=') + 1, pt_pin.indexOf(';'))
-    var pt_token = response.headers['set-cookie'][3]
+    let pt_token = response.headers['set-cookie'][3]
     pt_token = pt_token.substring(pt_token.indexOf('=') + 1, pt_token.indexOf(';'))
-    var pwdt_id = response.headers['set-cookie'][4]
+    let pwdt_id = response.headers['set-cookie'][4]
     pwdt_id = pwdt_id.substring(pwdt_id.indexOf('=') + 1, pwdt_id.indexOf(';'))
-    var s_key = response.headers['set-cookie'][5]
+    let s_key = response.headers['set-cookie'][5]
     s_key = s_key.substring(s_key.indexOf('=') + 1, s_key.indexOf(';'))
-    var s_pin = response.headers['set-cookie'][6]
+    let s_pin = response.headers['set-cookie'][6]
     s_pin = s_pin.substring(s_pin.indexOf('=') + 1, s_pin.indexOf(';'))
     cookies =
         'TrackerID=' +
@@ -93,7 +91,7 @@ function getCookie(response) {
         '; s_pin=' +
         s_pin +
         '; wq_skey='
-    var userCookie = 'pt_key=' + pt_key + ';pt_pin=' + pt_pin + ';'
+    let userCookie = 'pt_key=' + pt_key + ';pt_pin=' + pt_pin + ';'
     console.log('\n############  登录成功，获取到 Cookie  #############\n')
     console.log('Cookie1="' + userCookie + '"\n')
     console.log('\n####################################################\n')
@@ -167,7 +165,7 @@ async function step2() {
         token = response.body.token
         okl_token = response.headers['set-cookie'][0]
         okl_token = okl_token.substring(okl_token.indexOf('=') + 1, okl_token.indexOf(';'))
-        var qrUrl = 'https://plogin.m.jd.com/cgi-bin/m/tmauth?appid=300&client_type=m&token=' + token
+        let qrUrl = 'https://plogin.m.jd.com/cgi-bin/m/tmauth?appid=300&client_type=m&token=' + token
         return qrUrl
     } catch (error) {
         console.log(error.response.body)
@@ -175,7 +173,7 @@ async function step2() {
     }
 }
 
-var i = 0
+let i = 0
 
 async function checkLogin() {
     try {
@@ -323,16 +321,16 @@ function getFileContentByName(fileName) {
  * @returns {string} 最新文件路径
  */
 function getLastModifyFilePath(dir) {
-    var filePath = ''
+    let filePath = ''
 
     if (fs.existsSync(dir)) {
-        var lastmtime = 0
+        let lastmtime = 0
 
-        var arr = fs.readdirSync(dir)
+        let arr = fs.readdirSync(dir)
 
         arr.forEach(function (item) {
-            var fullpath = path.join(dir, item)
-            var stats = fs.statSync(fullpath)
+            let fullpath = path.join(dir, item)
+            let stats = fs.statSync(fullpath)
             if (stats.isFile()) {
                 if (stats.mtimeMs >= lastmtime) {
                     filePath = fullpath
@@ -343,7 +341,7 @@ function getLastModifyFilePath(dir) {
     return filePath
 }
 
-var app = express()
+let app = express()
 // gzip压缩
 app.use(compression({ level: 6, filter: shouldCompress }))
 
@@ -365,8 +363,8 @@ app.use(
         saveUninitialized: true
     })
 )
-app.use(bodyParser.json({ limit: '50mb' }))
-app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }))
+app.use(express.json({ limit: '50mb' }))
+app.use(express.urlencoded({ limit: '50mb', extended: true }))
 app.use(express.static(path.join(__dirname, 'public')))
 
 /**
@@ -640,7 +638,7 @@ app.post('/auth', function (request, response) {
     let password = request.body.password
     fs.readFile(authConfigFile, 'utf8', function (err, data) {
         if (err) console.log(err)
-        var con = JSON.parse(data)
+        let con = JSON.parse(data)
         if (username && password) {
             if (username == con.user && password == con.password) {
                 request.session.loggedin = true
@@ -729,16 +727,16 @@ app.get('/log', function (request, response) {
  */
 app.get('/api/logs', function (request, response) {
     if (request.session.loggedin && request.session.role == 'admin') {
-        var fileList = fs.readdirSync(logPath, 'utf-8')
-        var dirs = []
-        var rootFiles = []
-        for (var i = 0; i < fileList.length; i++) {
-            var stat = fs.lstatSync(logPath + fileList[i])
+        let fileList = fs.readdirSync(logPath, 'utf-8')
+        let dirs = []
+        let rootFiles = []
+        for (let i = 0; i < fileList.length; i++) {
+            let stat = fs.lstatSync(logPath + fileList[i])
             // 是目录，需要继续
             if (stat.isDirectory()) {
-                var fileListTmp = fs.readdirSync(logPath + '/' + fileList[i], 'utf-8')
+                let fileListTmp = fs.readdirSync(logPath + '/' + fileList[i], 'utf-8')
                 fileListTmp.reverse()
-                var dirMap = {
+                let dirMap = {
                     dirName: fileList[i],
                     files: fileListTmp
                 }
@@ -752,7 +750,7 @@ app.get('/api/logs', function (request, response) {
             dirName: '@',
             files: rootFiles
         })
-        var result = { dirs }
+        let result = { dirs }
         response.send(result)
     } else {
         response.redirect('/')
@@ -770,7 +768,7 @@ app.get('/api/logs/:dir/:file', function (request, response) {
         } else {
             filePath = logPath + request.params.dir + '/' + request.params.file
         }
-        var content = getFileContentByName(filePath)
+        let content = getFileContentByName(filePath)
         response.setHeader('Content-Type', 'text/plain')
         response.send(content)
     } else {
@@ -794,22 +792,22 @@ app.get('/viewScripts', function (request, response) {
  */
 app.get('/api/scripts', function (request, response) {
     if (request.session.loggedin && request.session.role == 'admin') {
-        var fileList = fs.readdirSync(ScriptsPath, 'utf-8')
-        var dirs = []
-        var rootFiles = []
-        var excludeRegExp = /(git)|(node_modules)|(icon)/
-        for (var i = 0; i < fileList.length; i++) {
-            var stat = fs.lstatSync(ScriptsPath + fileList[i])
+        let fileList = fs.readdirSync(ScriptsPath, 'utf-8')
+        let dirs = []
+        let rootFiles = []
+        let excludeRegExp = /(git)|(node_modules)|(icon)/
+        for (let i = 0; i < fileList.length; i++) {
+            let stat = fs.lstatSync(ScriptsPath + fileList[i])
             // 是目录，需要继续
             if (stat.isDirectory()) {
-                var fileListTmp = fs.readdirSync(ScriptsPath + '/' + fileList[i], 'utf-8')
+                let fileListTmp = fs.readdirSync(ScriptsPath + '/' + fileList[i], 'utf-8')
                 fileListTmp.reverse()
 
                 if (excludeRegExp.test(fileList[i])) {
                     continue
                 }
 
-                var dirMap = {
+                let dirMap = {
                     dirName: fileList[i],
                     files: fileListTmp
                 }
@@ -827,7 +825,7 @@ app.get('/api/scripts', function (request, response) {
             dirName: '@',
             files: rootFiles
         })
-        var result = { dirs }
+        let result = { dirs }
         response.send(result)
     } else {
         response.redirect('/')
@@ -845,12 +843,42 @@ app.get('/api/scripts/:dir/:file', function (request, response) {
         } else {
             filePath = ScriptsPath + request.params.dir + '/' + request.params.file
         }
-        var content = getFileContentByName(filePath)
+        let content = getFileContentByName(filePath)
         response.setHeader('Content-Type', 'text/plain')
         response.send(content)
     } else {
         response.redirect('/')
     }
+})
+
+
+const reg = /Cookie\d+="(.+)"/
+const regex = /Cookie\d+="(.+)"/g
+
+/**
+ * 通过账户校验查询当前的cookieList
+ */
+app.get('/api/cookies/:username/:password', (request, response) => {
+    confFile
+    let username = request.params.username
+    let password = request.params.password
+    fs.readFile(authConfigFile, 'utf8', function (err, data) {
+        if (err) console.log(err)
+        let con = JSON.parse(data)
+        if (username && password) {
+            if (username == con.user && password == con.password) {
+                const confContent = fs.readFileSync(confFile, 'utf8')
+                const list = (confContent.match(regex) || []).map(str => {
+                    return str.replace(reg, "$1")
+                }) || []
+                response.send({ err: 0, list })
+            } else {
+                response.send({ err: 1, msg: authError })
+            }
+        } else {
+            response.send({ err: 1, msg: '请输入用户名密码!' })
+        }
+    })
 })
 
 checkConfigFile()
