@@ -854,6 +854,7 @@ app.get('/api/scripts/:dir/:file', function (request, response) {
 
 const reg = /Cookie\d+="(.+)"/
 const regex = /Cookie\d+="(.+)"/g
+const blockReg = /TempBlockCookie="(.+)"/g
 
 /**
  * 通过账户校验查询当前的cookieList
@@ -869,8 +870,21 @@ app.get('/api/cookies/:username/:password', (request, response) => {
             if (username == con.user && password == con.password) {
                 const confContent = fs.readFileSync(confFile, 'utf8')
                 const list = (confContent.match(regex) || []).map(str => {
-                    return str.replace(reg, "$1")
+                    return {
+                        cookie: str.replace(reg, "$1"),
+                        status: true
+                    }
                 }) || []
+                const blocks = (confContent.match(blockReg) || [])
+                if (blocks && blocks.length) {
+                    let block = blocks[0].replace(/TempBlockCookie="(.+)"/, '$1')
+                    if (block) {
+                        const blist = block.split(' ').map(i => parseInt(i))
+                        blist.forEach(i => {
+                            list[i - 1].status = false
+                        })
+                    }
+                }
                 response.send({ err: 0, list })
             } else {
                 response.send({ err: 1, msg: authError })
