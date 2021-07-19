@@ -335,8 +335,8 @@ function Run_Normal() {
     echo "0000"
   fi
 
-  FileNameTmp1=$(echo $1 | perl -pe "s|\.(js|ts)||")
-  FileNameTmp2=$(echo $1 | perl -pe "{s|jd_||; s|\.(js|ts)||; s|^|jd_|}")
+  FileNameTmp1=$(echo $1 | perl -pe "s|\.js||")
+  FileNameTmp2=$(echo $1 | perl -pe "{s|jd_||; s|\.js||; s|^|jd_|}")
   SeekDir="${ScriptsDir} ${ScriptsDir}/backUp ${ConfigDir}"
   FileName=""
   FilePath=""
