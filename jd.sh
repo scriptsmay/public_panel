@@ -313,6 +313,11 @@ function clean() {
   bash ${ShellDir}/rm_log.sh
 }
 
+# 手动执行更新
+function update() {
+  bash ${ShellDir}/git_pull.sh > ${LogDir}/git_pull.log 2>&1
+}
+
 ## 重置密码
 function Reset_Pwd() {
   cp -f ${ShellDir}/sample/auth.json ${ConfigDir}/auth.json
@@ -405,6 +410,8 @@ case $# in
     paneloff
   elif [[ $1 == clean ]]; then
     clean
+  elif [[ $1 == update ]]; then
+    update
   else
     Run_Normal $1
   fi
