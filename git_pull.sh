@@ -489,21 +489,6 @@ function panelinit {
   fi
 }
 
-# 放在这个初始化python3环境，目的减小镜像体积，一些不需要使用bot交互的用户可以不用拉体积比较大的镜像
-# 在这个任务里面还有初始化还有目的就是为了方便bot更新了新功能的话只需要重启容器就完成更新
-function initPythonEnv() {
-  echo "开始安装运行jd_bot需要的python环境及依赖..."
-  apk add --update python3-dev py3-pip py3-cryptography py3-numpy py-pillow
-  echo "开始安装jd_bot依赖..."
-  #测试
-  #cd /jd_docker/docker/bot
-  #合并
-  cd ${ScriptsDir}/docker/bot
-  pip3 install --upgrade pip
-  pip3 install -r requirements.txt
-  python3 setup.py install
-}
-
 ## 在日志中记录时间与路径
 echo -e ''
 echo -e "+----------------- 开 始 执 行 更 新 脚 本 -----------------+"
@@ -531,9 +516,10 @@ fi
 
 ## 克隆或更新js脚本
 if [ ${ExitStatusShell} -eq 0 ]; then
-  echo -e "克隆或更新js脚本--------------------------------------------------------------\n"
-  [ -f ${ScriptsDir}/package.json ] && PackageListOld=$(cat ${ScriptsDir}/package.json)
-  [ -d ${ScriptsDir}/.git ] && Git_PullScripts || Git_CloneScripts
+#   echo -e "克隆或更新js脚本--------------------------------------------------------------\n"
+#   [ -f ${ScriptsDir}/package.json ] && PackageListOld=$(cat ${ScriptsDir}/package.json)
+#   [ -d ${ScriptsDir}/.git ] && Git_PullScripts || Git_CloneScripts
+  echo -e "更新 Scripts2Dir ------------------------------------------------------------\n"
   #测试自写脚本
   [ -d ${Scripts2Dir}/.git ] && Git_PullScripts2 || Git_CloneScripts2
   #先注释掉看看情况
@@ -547,8 +533,6 @@ if [[ ${ExitStatusScripts} -eq 0 ]]; then
   [ -d ${ScriptsDir}/node_modules ] && Notify_Version
   Diff_Cron
   Npm_Install
-  # 增加安装 python 环境
-  #initPythonEnv
   Output_ListJsAdd
   Output_ListJsDrop
   Del_Cron
