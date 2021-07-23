@@ -498,6 +498,8 @@ echo -e ''
 echo -e "   当前系统时间：$(date "+%Y-%m-%d %H:%M")"
 echo -e ''
 echo -e "+-----------------------------------------------------------+"
+
+ExitStatusScripts=0
 ## 检测配置文件链接
 SourceUrl_Update
 fix_files
