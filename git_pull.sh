@@ -519,7 +519,7 @@ fi
 ## 克隆或更新js脚本
 if [ ${ExitStatusShell} -eq 0 ]; then
 #   echo -e "克隆或更新js脚本--------------------------------------------------------------\n"
-#   [ -f ${ScriptsDir}/package.json ] && PackageListOld=$(cat ${ScriptsDir}/package.json)
+  [ -f ${ScriptsDir}/package.json ] && PackageListOld=$(cat ${ScriptsDir}/package.json)
 #   [ -d ${ScriptsDir}/.git ] && Git_PullScripts || Git_CloneScripts
   echo -e "更新 Scripts2Dir ------------------------------------------------------------\n"
   #测试自写脚本
