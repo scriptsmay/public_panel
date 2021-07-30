@@ -343,7 +343,7 @@ function getLastModifyFilePath(dir) {
 
 let app = express()
 // gzip压缩
-app.use(compression({ level: 6, filter: shouldCompress }))
+app.use(compression({ filter: shouldCompress }))
 
 function shouldCompress(req, res) {
     if (req.headers['x-no-compression']) {
@@ -365,7 +365,12 @@ app.use(
 )
 app.use(express.json({ limit: '50mb' }))
 app.use(express.urlencoded({ limit: '50mb', extended: true }))
-app.use(express.static(path.join(__dirname, 'public')))
+app.use(express.static(path.join(__dirname, 'public'), {
+    maxAge: '1m',
+    expires: '1m',
+    Etag: false,
+    lastModified: false
+ }))
 
 /**
  * 登录页面
